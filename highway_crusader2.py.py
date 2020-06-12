@@ -80,7 +80,31 @@ clock = pygame.time.Clock()
 # -- classes
 #Road_mark class
 class Road_mark(pygame.sprite.Sprite)
-    def __init__(self,color,width,height)
+    #instantiation
+    def __init__(self,color,width,height,x_ref_y_ref,speedy):
+
+        #constructor
+        super().__init__()
+
+        #creates sprites
+        self.image + pygame.Surface([width,height])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+
+        #sets position of road mark
+        self.rect.x = x_ref
+        self.rect.y = y_ref
+
+        #set speed
+        self.roadmark_speedy = speedy
+        #end procedure
+    def roadmark_set_speedy(self,val):
+        speedy = val
+        self.roadmark_speedy = speedy
+
+
+
+
 
 #traffic class
 class Traffic(pygame.sprite.Sprite):
