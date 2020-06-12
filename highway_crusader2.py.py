@@ -78,6 +78,9 @@ done = False
 clock = pygame.time.Clock()
 
 # -- classes
+#Road_mark class
+class Road_mark(pygame.sprite.Sprite)
+    def __init__(self,color,width,height)
 
 #traffic class
 class Traffic(pygame.sprite.Sprite):
@@ -175,6 +178,28 @@ class Player(pygame.sprite.Sprite):
         self.player_speedy = val
     #End procedure
 
+#Police car class
+class Police_car(pygame.sprite.Sprite):
+
+    #instatiation
+        def __init__(self, width, height, x_ref, y_ref, speedx, speedy):
+
+            #sprite constructor
+            super().__init__()
+        #end procedure
+
+        def update(self):
+            self.rect.y = self.rect.y + self.speedy
+            self.rect.x = self.rect.x + self.speedx
+        #end procedure
+
+        def police_car_set_speedy(self,val):
+            self.speedy = val
+        #end procedure
+
+        def police_car_set_speedx(self,val):
+            self.speedx = val
+        #end procedure
 
 
 all_sprites_group = pygame.sprite.Group()
