@@ -64,8 +64,8 @@ map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
 
 
-
-
+#score
+score = 0
 
 
 # -- Title of new window/screen
@@ -76,6 +76,12 @@ done = False
 
  # -- Manages how fast screen refreshes
 clock = pygame.time.Clock()
+
+#functions
+#collision function
+def is_collided_with(self,sprite):
+    return self.rect.colliderect(sprite.rect)
+
 
 # -- classes
 #Road_mark class
@@ -99,6 +105,7 @@ class Road_mark(pygame.sprite.Sprite):
         self.roadmark_speedy = speedy
         #end procedure
 
+
     def update(self):
         self.rect.y = self.rect.y + self.roadmark_speedy
        
@@ -106,6 +113,13 @@ class Road_mark(pygame.sprite.Sprite):
     def roadmark_set_speedy(self,val):
         speedy = val
         self.roadmark_speedy = speedy
+
+
+    def respawn(self):
+        if self.rect.y == 600:
+            self.rect.y = 0
+
+
 
 
     
@@ -138,6 +152,8 @@ class Traffic(pygame.sprite.Sprite):
     def traffic_set_speedy(self,val):
         speedy = val
         self.traffic_speedy = speedy
+
+
 
 
 
@@ -245,14 +261,18 @@ all_sprites_group.add (player)
 
 #road mark creation
 roadmark_list = pygame.sprite.Group()
-
 y_coord = 0
+counter = 0
 for y in range(20):
-    roadmark = Road_mark(BLUE,5,20,450,y_coord,1)
-    all_sprites_group.add(roadmark)
-    y_coord = y_coord + 300
+    roadmark_list[counter] = Road_mark(BLUE,5,20,450,y_coord,1)
+    all_sprites_group.add(roadmark_list[counter])
+    y_coord = y_coord + 60
+    counter += 1
 
-#traffic creaation
+
+
+
+#traffic creation
 traffic_list = pygame.sprite.Group()
 traffic_counter=0
 speedcount=1
@@ -268,7 +288,7 @@ roadedge_list = pygame.sprite.Group()
 
 
 
-# Create walls on the screen (each tile is 20 x 20 so alter cords)
+# Create walls on the screen (each tile is 20 x 20 so alter coords)
 for y in range(38):
     for x in range (45):
         if map[y][x] == 1:
@@ -312,6 +332,17 @@ while not done:
           #End If
      #Next event
     # -- Game logic goes after this comment
+
+    # Runs the update function for all sprites
+    all_sprites_group.update()
+
+    #road mark respawn
+    counter = 0   
+    for y in range (20):
+        roadmark_list[counter].update()
+        counter += 1
+
+    #player collisions
     player_old_x = player.rect.x
     player_old_y = player.rect.y
 
@@ -324,18 +355,14 @@ while not done:
         player.rect.y = player_old_y
 
 
-    traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
-    for foo in traffic_hit_list:
+    traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, True, True)
+    for hit in traffic_hit_list:
         traffic_list.traffic_set_speedy(0)
         player.player_set_speedx(0)
         player.player_set_speedy(0)
-        player.rect.x = player_old_x
-        player.rect.y = player_old_y
+        
 
-    # Runs the update function for all sprites
-    all_sprites_group.update()
-
-
+    
 
     # -- Screen background is BLACK
     screen.fill (BLACK)
