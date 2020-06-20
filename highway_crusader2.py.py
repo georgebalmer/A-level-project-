@@ -83,6 +83,16 @@ def is_collided_with(self,sprite):
     return self.rect.colliderect(sprite.rect)
 
 
+#text draw
+font_name = pygame.font.match_font('arial')
+def draw_text(Surface, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    Surface.blit(text_surface, text_rect)
+
+
 # -- classes
 #Road_mark class
 class Road_mark(pygame.sprite.Sprite):
@@ -264,8 +274,8 @@ roadmark_list = pygame.sprite.Group()
 y_coord = 0
 counter = 0
 for y in range(20):
-    roadmark_list[counter] = Road_mark(BLUE,5,20,450,y_coord,1)
-    all_sprites_group.add(roadmark_list[counter])
+    roadmark_list = Road_mark(BLUE,5,20,450,y_coord,1)
+    all_sprites_group.add(roadmark_list)
     y_coord = y_coord + 60
     counter += 1
 
@@ -332,14 +342,17 @@ while not done:
           #End If
      #Next event
     # -- Game logic goes after this comment
-
+    
     # Runs the update function for all sprites
     all_sprites_group.update()
+
+    #score uupdate
+    score += 1
 
     #road mark respawn
     counter = 0   
     for y in range (20):
-        roadmark_list[counter].update()
+        roadmark_list.update()
         counter += 1
 
     #player collisions
@@ -368,6 +381,7 @@ while not done:
     screen.fill (BLACK)
     # -- Draw here
     all_sprites_group.draw (screen)
+    draw_text(screen, str(score), 18, 450, 10)
 
 
     # -- flip display to reveal new position of objects
