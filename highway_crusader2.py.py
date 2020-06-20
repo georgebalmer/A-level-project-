@@ -270,13 +270,14 @@ player = Player(RED,20,20,0,0)
 all_sprites_group.add (player)
 
 #road mark creation
-roadmark_list = pygame.sprite.Group()
+roadmarks = pygame.sprite.Group()
 y_coord = 0
 counter = 0
 for y in range(20):
-    roadmark_list = Road_mark(BLUE,5,20,450,y_coord,1)
-    all_sprites_group.add(roadmark_list)
-    y_coord = y_coord + 60
+    roadmark = Road_mark(BLUE,5,20,450,y_coord,1)
+    all_sprites_group.add(roadmark)
+    roadmarks.add(roadmark)
+    y_coord = y_coord + 30
     counter += 1
 
 
@@ -289,6 +290,7 @@ speedcount=1
 for y in range(5):
     traffic = Traffic(YELLOW,10,10,random.randint(320,550),random.randint(40,200)*-1,speedcount)
     all_sprites_group.add(traffic)
+    traffic_list.add(traffic)
     traffic_counter += 1
     speedcount = 4
 
@@ -346,13 +348,21 @@ while not done:
     # Runs the update function for all sprites
     all_sprites_group.update()
 
+    #check to see if any traffic hit the player
+    #hits = pygame.sprite.spritecollide(player, traffic, False)
+    #if hits: 
+        #traffic_list.traffic_set_speedy(0)
+        #player.player_set_speedx(0)
+        #player.player_set_speedy(0)
+
+
     #score uupdate
     score += 1
 
     #road mark respawn
     counter = 0   
     for y in range (20):
-        roadmark_list.update()
+        roadmarks.update()
         counter += 1
 
     #player collisions
