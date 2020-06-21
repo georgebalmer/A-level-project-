@@ -117,7 +117,8 @@ class Road_mark(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y = self.rect.y + self.roadmark_speedy
-       
+        if self.rect.y > 600:
+            self.rect.y == 0
 
     def roadmark_set_speedy(self,val):
         speedy = val
@@ -272,7 +273,7 @@ all_sprites_group.add (player)
 roadmarks = pygame.sprite.Group()
 y_coord = 0
 counter = 0
-for y in range(20):
+for y in range(2):
     roadmark = Road_mark(BLUE,5,20,450,y_coord,1)
     all_sprites_group.add(roadmark)
     roadmarks.add(roadmark)
@@ -348,22 +349,15 @@ while not done:
     # Runs the update function for all sprites
     all_sprites_group.update()
 
-    #check to see if any traffic hit the player
-    #hits = pygame.sprite.spritecollide(player, traffic, False)
-    #if hits: 
-        #traffic_list.traffic_set_speedy(0)
-        #player.player_set_speedx(0)
-        #player.player_set_speedy(0)
-
 
     #score uupdate
     score += 1
 
     #road mark respawn
-    counter = 0   
-    for y in range (20):
-        roadmark.update()
-        counter += 1
+    #counter = 0   
+    #for y in range (20):
+     #   roadmark.respawn()
+      #  counter += 1
 
     #player collisions
     player_old_x = player.rect.x
