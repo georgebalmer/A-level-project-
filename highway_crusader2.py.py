@@ -117,16 +117,13 @@ class Road_mark(pygame.sprite.Sprite):
     def update(self):
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
-            self.rect.y == 0
+            self.rect.y = 0
 
     def roadmark_set_speedy(self,val):
         speedy = val
         self.roadmark_speedy = speedy
 
 
-    def respawn(self):
-        if self.rect.y == 600:
-            self.rect.y = 0
 
 
 
@@ -272,7 +269,7 @@ all_sprites_group.add (player)
 roadmarks = pygame.sprite.Group()
 y_coord = 0
 counter = 0
-for y in range(2):
+for y in range(20):
     roadmark = Road_mark(BLUE,5,20,450,y_coord,1)
     all_sprites_group.add(roadmark)
     roadmarks.add(roadmark)
