@@ -152,8 +152,11 @@ class Traffic(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y = self.rect.y + self.traffic_speedy
-       
-
+        if self.rect.y > 600:
+            self.rect.x = random.choice(traffic_x_list)
+            self.rect.y = random.randint(40,600)*-1
+        
+        
     
     def traffic_set_speedy(self,val):
         speedy = val
@@ -285,7 +288,7 @@ traffic_counter=0
 speedcount=1
 traffic_x_list = [250,675]
 for y in range(5):
-    traffic = Traffic(YELLOW,10,10,random.choice(traffic_x_list),random.randint(40,200)*-1,speedcount)
+    traffic = Traffic(YELLOW,20,20,random.choice(traffic_x_list),random.randint(40,200)*-1,speedcount)
     all_sprites_group.add(traffic)
     traffic_list.add(traffic)
     traffic_counter += 1
