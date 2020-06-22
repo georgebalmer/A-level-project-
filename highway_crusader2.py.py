@@ -270,14 +270,17 @@ all_sprites_group.add (player)
 
 #road mark creation
 roadmarks = pygame.sprite.Group()
-y_coord = 0
+roadmark_y_coord = 0
+roadmark_x_coord = 300
 counter = 0
-for y in range(20):
-    roadmark = Road_mark(BLUE,5,20,450,y_coord,1)
-    all_sprites_group.add(roadmark)
-    roadmarks.add(roadmark)
-    y_coord = y_coord + 30
-    counter += 1
+for y in range(4):
+    for x in range(200):
+        roadmark = Road_mark(BLUE,5,20,roadmark_x_coord,roadmark_y_coord,1)
+        all_sprites_group.add(roadmark)
+        roadmarks.add(roadmark)
+        roadmark_y_coord += 30
+        counter += 1
+    roadmark_x_coord += 200
 
 
 
