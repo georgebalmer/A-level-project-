@@ -21,6 +21,9 @@ screen = pygame.display.set_mode(size)
 
 
 
+#road width is 29 tiles
+road_width = 580
+roadside_width
 
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
