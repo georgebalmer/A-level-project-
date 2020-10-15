@@ -23,7 +23,6 @@ screen = pygame.display.set_mode(size)
 
 #road width is 29 tiles
 road_width = 580
-roadside_width
 
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -334,9 +333,7 @@ while not done:
 
                 elif event.key == pygame.K_RIGHT:
                         player.player_set_speedx(3)
-          #end if
 
-          if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     player.player_set_speedy(-3)
 
@@ -344,8 +341,18 @@ while not done:
                     player.player_set_speedy(3)
           #end if
           if event.type == pygame.KEYUP:
-                     player.player_set_speedy(0)
-                     player.player_set_speedx(0)
+                if event.key == pygame.K_LEFT:
+                        player.player_set_speedx(0)
+
+                elif event.key == pygame.K_RIGHT:
+                        player.player_set_speedx(0)
+
+                if event.key == pygame.K_UP:
+                    player.player_set_speedy(0)
+
+                elif event.key == pygame.K_DOWN:
+                    player.player_set_speedy(0)
+                     
           #end if
 
 
