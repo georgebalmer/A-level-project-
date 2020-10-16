@@ -385,15 +385,18 @@ while not done:
         player.player_set_speedy(0)
         player.rect.x = player_old_x
         player.rect.y = player_old_y
+       
 
 
-    traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
+    traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, True)
     for hit in traffic_hit_list:
+        print("hello")
         traffic.traffic_set_speedy(0)
         player.player_set_speedx(0)
         player.player_set_speedy(0)
-        done = True
-
+        player.rect.x = player_old_x
+        player.rect.y = player_old_y
+       
         
 
     
