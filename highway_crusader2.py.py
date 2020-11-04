@@ -25,6 +25,9 @@ screen = pygame.display.set_mode(size)
 road_width = 580
 
 
+#list for random spawn x co-ord
+traffic_x_list = [250,675]
+
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -93,6 +96,8 @@ def draw_text(Surface, text, size, x, y):
     Surface.blit(text_surface, text_rect)
 
 
+
+
 # -- classes
 #Road_mark class
 class Road_mark(pygame.sprite.Sprite):
@@ -152,6 +157,9 @@ class Traffic(pygame.sprite.Sprite):
 
         self.traffic_speedy = speedy
 
+
+
+    
     def update(self):
         self.rect.y = self.rect.y + self.traffic_speedy
         if self.rect.y > 600:
@@ -265,59 +273,7 @@ class Police_car(pygame.sprite.Sprite):
 
 all_sprites_group = pygame.sprite.Group()
 
-# -- object creation
-#player creation
-player = Player(RED,20,20,0,0)
-all_sprites_group.add (player)
 
-#road mark creation
-roadmarks = pygame.sprite.Group()
-roadmark_y_coord = 0
-roadmark_x_coord = 445
-counter = 0
-for y in range(1):
-    for x in range(20):
-        roadmark = Road_mark(WHITE,5,20,roadmark_x_coord,roadmark_y_coord,1)
-        all_sprites_group.add(roadmark)
-        roadmarks.add(roadmark)
-        roadmark_y_coord += 30
-        counter += 1
-    roadmark_x_coord += 200
-
-
-
-
-#traffic creation
-traffic_list = pygame.sprite.Group()
-traffic_counter=0
-speedcount=1
-traffic_x_list = [250,675]
-for y in range(5):
-    traffic = Traffic(YELLOW,20,20,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
-    all_sprites_group.add(traffic)
-    traffic_list.add(traffic)
-    traffic_counter += 1
-    speedcount = 4
-
-
-#roadedge creataion
-roadedge_list = pygame.sprite.Group()
-
-
-
-# Create walls on the screen (each tile is 20 x 20 so alter coords)
-for y in range(38):
-    for x in range (45):
-        if map[y][x] == 1:
-            my_roadedge = Roadedge(WHITE, 20, 20, x*20, y *20)
-            roadedge_list.add(my_roadedge)
-            all_sprites_group.add(my_roadedge)
-
-
-
-
-#code for collision group
-player_hit_list=pygame.sprite.Group()
 
 ### -- menu loop
 def Menu():
@@ -334,6 +290,8 @@ def Menu():
          # -- Screen background is BLACK
         screen.fill (BLACK)
         draw_text(screen, str("press [1] to start"), 20, 450, 300)
+        draw_text(screen, str("press [ESC] to exit"), 20, 450, 330)
+        draw_text(screen, str("Main Menu"), 100, 450, 50)
         
        
 
@@ -341,12 +299,66 @@ def Menu():
 
         #clock tick
         clock.tick(60)
+    MainGame()
         
 
 ### -- Game Loop
 def MainGame():
     done = False
     score = 0
+    # -- object creation
+    #player creation
+    player = Player(RED,20,20,0,0)
+    all_sprites_group.add (player)
+
+    #road mark creation
+    roadmarks = pygame.sprite.Group()
+    roadmark_y_coord = 0
+    roadmark_x_coord = 445
+    counter = 0
+    for y in range(1):
+        for x in range(20):
+            roadmark = Road_mark(WHITE,5,20,roadmark_x_coord,roadmark_y_coord,1)
+            all_sprites_group.add(roadmark)
+            roadmarks.add(roadmark)
+            roadmark_y_coord += 30
+            counter += 1
+        roadmark_x_coord += 200
+
+
+
+
+    #traffic creation
+    traffic_list = pygame.sprite.Group()
+    traffic_counter=0
+    speedcount=1
+
+    for y in range(5):
+        traffic = Traffic(YELLOW,20,20,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
+        all_sprites_group.add(traffic)
+        traffic_list.add(traffic)
+        traffic_counter += 1
+        speedcount = 4
+
+
+    #roadedge creataion
+    roadedge_list = pygame.sprite.Group()
+
+
+
+    # Create walls on the screen (each tile is 20 x 20 so alter coords)
+    for y in range(38):
+        for x in range (45):
+            if map[y][x] == 1:
+                my_roadedge = Roadedge(WHITE, 20, 20, x*20, y *20)
+                roadedge_list.add(my_roadedge)
+                all_sprites_group.add(my_roadedge)
+
+
+
+
+    #code for collision group
+    player_hit_list=pygame.sprite.Group()
     while not done:
         # -- User input and controls
         for event in pygame.event.get():
@@ -415,14 +427,12 @@ def MainGame():
            
 
 
-        traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, True)
+        traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
         for hit in traffic_hit_list:
-            print("hello")
-            traffic.traffic_set_speedy(0)
-            player.player_set_speedx(0)
-            player.player_set_speedy(0)
-            player.rect.x = player_old_x
-            player.rect.y = player_old_y
+            done = True
+             
+            
+             
            
             
 
@@ -439,7 +449,16 @@ def MainGame():
         pygame.display.flip()
         # -- The clock ticks over
         clock.tick(60)
-    #End While - End of game loop
+    for x in traffic_list:
+        x.kill()
+    player.kill()
+    for x in roadedge_list:
+        x.kill()
+    for x in roadmarks:
+        x.kill()
+    #End While
+    Menu()
+    #end of MainGame function
+    
 Menu()
-MainGame()
 pygame.quit()
