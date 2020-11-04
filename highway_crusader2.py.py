@@ -289,9 +289,9 @@ def Menu():
 
          # -- Screen background is BLACK
         screen.fill (BLACK)
-        draw_text(screen, str("press [1] to start"), 20, 450, 300)
-        draw_text(screen, str("press [ESC] to exit"), 20, 450, 330)
-        draw_text(screen, str("Main Menu"), 100, 450, 50)
+        draw_text(screen, str("press [1] to start"), 20, 450, 330)
+        draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
+        draw_text(screen, str("Main Menu"), 100, 450, 80)
         
        
 
@@ -378,6 +378,9 @@ def MainGame():
 
                     elif event.key == pygame.K_DOWN:
                         player.player_set_speedy(3)
+
+                    elif event.key == pygame.K_ESCAPE:
+                        done = True
               #end if
               if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
@@ -443,6 +446,7 @@ def MainGame():
         # -- Draw here
         all_sprites_group.draw (screen)
         draw_text(screen, str(score), 18, 800, 10)
+        draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
 
 
         # -- flip display to reveal new position of objects
