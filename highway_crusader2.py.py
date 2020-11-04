@@ -319,98 +319,127 @@ for y in range(38):
 #code for collision group
 player_hit_list=pygame.sprite.Group()
 
-### -- Game Loop
-while not done:
-    # -- User input and controls
-    for event in pygame.event.get():
-          if event.type == pygame.QUIT:
-                done = True
+### -- menu loop
+def Menu():
+    MainMenuDone = False
+    while not MainMenuDone:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                elif event.key == pygame.K_1:
+                    MainMenuDone = True
+            
 
-
-          if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                        player.player_set_speedx(-3)
-
-                elif event.key == pygame.K_RIGHT:
-                        player.player_set_speedx(3)
-
-                if event.key == pygame.K_UP:
-                    player.player_set_speedy(-3)
-
-                elif event.key == pygame.K_DOWN:
-                    player.player_set_speedy(3)
-          #end if
-          if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                        player.player_set_speedx(0)
-
-                elif event.key == pygame.K_RIGHT:
-                        player.player_set_speedx(0)
-
-                if event.key == pygame.K_UP:
-                    player.player_set_speedy(0)
-
-                elif event.key == pygame.K_DOWN:
-                    player.player_set_speedy(0)
-                     
-          #end if
-
-
-
-          #End If
-     #Next event
-    # -- Game logic goes after this comment
-    
-    # Runs the update function for all sprites
-    all_sprites_group.update()
-
-
-    #score uupdate
-    score += 1
-
-    #road mark respawn
-    #counter = 0   
-    #for y in range (20):
-     #   roadmark.respawn()
-      #  counter += 1
-
-    #player collisions
-    player_old_x = player.rect.x
-    player_old_y = player.rect.y
-
-    player_hit_list = pygame.sprite.spritecollide(player, roadedge_list, False)
-
-    for foo in player_hit_list:
-        player.player_set_speedx(0)
-        player.player_set_speedy(0)
-        player.rect.x = player_old_x
-        player.rect.y = player_old_y
+         # -- Screen background is BLACK
+        screen.fill (BLACK)
+        draw_text(screen, str("press [1] to start"), 20, 450, 300)
+        
        
 
+        pygame.display.flip()
 
-    traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, True)
-    for hit in traffic_hit_list:
-        print("hello")
-        traffic.traffic_set_speedy(0)
-        player.player_set_speedx(0)
-        player.player_set_speedy(0)
-        player.rect.x = player_old_x
-        player.rect.y = player_old_y
-       
+        #clock tick
+        clock.tick(60)
         
 
-    
+### -- Game Loop
+def MainGame():
+    done = False
+    score = 0
+    while not done:
+        # -- User input and controls
+        for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                    done = True
 
-    # -- Screen background is BLACK
-    screen.fill (BLACK)
-    # -- Draw here
-    all_sprites_group.draw (screen)
-    draw_text(screen, str(score), 18, 800, 10)
+
+              if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                            player.player_set_speedx(-3)
+
+                    elif event.key == pygame.K_RIGHT:
+                            player.player_set_speedx(3)
+
+                    if event.key == pygame.K_UP:
+                        player.player_set_speedy(-3)
+
+                    elif event.key == pygame.K_DOWN:
+                        player.player_set_speedy(3)
+              #end if
+              if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT:
+                            player.player_set_speedx(0)
+
+                    elif event.key == pygame.K_RIGHT:
+                            player.player_set_speedx(0)
+
+                    if event.key == pygame.K_UP:
+                        player.player_set_speedy(0)
+
+                    elif event.key == pygame.K_DOWN:
+                        player.player_set_speedy(0)
+                         
+              #end if
 
 
-    # -- flip display to reveal new position of objects
-    pygame.display.flip()
-    # -- The clock ticks over
-    clock.tick(60)
-#End While - End of game loop
+
+              #End If
+         #Next event
+        # -- Game logic goes after this comment
+        
+        # Runs the update function for all sprites
+        all_sprites_group.update()
+
+
+        #score uupdate
+        score += 1
+
+        #road mark respawn
+        #counter = 0   
+        #for y in range (20):
+         #   roadmark.respawn()
+          #  counter += 1
+
+        #player collisions
+        player_old_x = player.rect.x
+        player_old_y = player.rect.y
+
+        player_hit_list = pygame.sprite.spritecollide(player, roadedge_list, False)
+
+        for foo in player_hit_list:
+            player.player_set_speedx(0)
+            player.player_set_speedy(0)
+            player.rect.x = player_old_x
+            player.rect.y = player_old_y
+           
+
+
+        traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, True)
+        for hit in traffic_hit_list:
+            print("hello")
+            traffic.traffic_set_speedy(0)
+            player.player_set_speedx(0)
+            player.player_set_speedy(0)
+            player.rect.x = player_old_x
+            player.rect.y = player_old_y
+           
+            
+
+        
+
+        # -- Screen background is BLACK
+        screen.fill (BLACK)
+        # -- Draw here
+        all_sprites_group.draw (screen)
+        draw_text(screen, str(score), 18, 800, 10)
+
+
+        # -- flip display to reveal new position of objects
+        pygame.display.flip()
+        # -- The clock ticks over
+        clock.tick(60)
+    #End While - End of game loop
+Menu()
+MainGame()
 pygame.quit()
