@@ -21,6 +21,7 @@ screen = pygame.display.set_mode(size)
 
 highscore = 0 
 
+sdore = 0
 #road width is 29 tiles
 road_width = 580
 
@@ -298,6 +299,7 @@ def Menu():
 ### -- Game Loop
 def MainGame():
     done = False
+    global score
     score = 0
     # -- object creation
     #player creation
