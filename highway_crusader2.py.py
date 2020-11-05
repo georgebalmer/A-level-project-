@@ -281,6 +281,7 @@ def Menu():
                     MainMenuDone = True
                 elif event.key == pygame.K_2:
                     Help()
+                    
             
 
          # -- Screen background is BLACK
@@ -289,15 +290,6 @@ def Menu():
         draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
         draw_text(screen, str("Main Menu"), 100, 450, 80)
         draw_text(screen, str("press [2] for help"), 20, 450, 390)
-        
-
-        
-       
-
-        
-        
-
-        
        
 
         pygame.display.flip()
@@ -522,7 +514,6 @@ def Help():
         draw_text(screen, str("[S] to move down"), 20, 450, 260)
         draw_text(screen, str("[D] to move right"), 20, 450, 290)
         draw_text(screen, str("Main Menu [ESC]"), 18, 60, 10)
-
     Menu()
     
 
