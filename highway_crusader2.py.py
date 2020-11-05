@@ -126,8 +126,7 @@ class Road_mark(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
             self.rect.y = 0
-            score += 1
-
+            
     def roadmark_set_speedy(self,val):
         speedy = val
         self.roadmark_speedy = speedy
@@ -391,7 +390,7 @@ def MainGame():
     
 
         
-        
+        score += 1
 
        
         
@@ -422,7 +421,10 @@ def MainGame():
              
             
              
-       
+        traffic_hit_list = pygame.sprite.groupcollide(traffic_list, traffic, False, False)
+        for hit in traffic_hit_list:
+            traffic.rect.y -= 300
+           
             
 
         
@@ -514,9 +516,9 @@ while not done:
   # -- Screen background is BLACK
     screen.fill (BLACK)
     draw_text(screen, str("press [1] to start"), 20, 450, 330)
-    draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
+    draw_text(screen, str("press [ESC] to exit"), 20, 450, 390)
     draw_text(screen, str("Main Menu"), 100, 450, 80)
-    draw_text(screen, str("press [2] for help"), 20, 450, 390)
+    draw_text(screen, str("press [2] for help"), 20, 450, 360)
 
 
     for event in pygame.event.get():
