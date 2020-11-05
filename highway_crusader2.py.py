@@ -27,7 +27,7 @@ road_width = 580
 
 
 #list for random spawn x co-ord
-traffic_x_list = [250,550]
+traffic_x_list = [200,400,600]
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -287,16 +287,18 @@ def MainGame():
     #road mark creation
     roadmarks = pygame.sprite.Group()
     roadmark_y_coord = 0
-    roadmark_x_coord = 445
+    roadmark_x_coord = 350
     counter = 0
-    for y in range(1):
+    for y in range(2):
         for x in range(20):
             roadmark = Road_mark(WHITE,5,20,roadmark_x_coord,roadmark_y_coord,1)
             all_sprites_group.add(roadmark)
             roadmarks.add(roadmark)
             roadmark_y_coord += 30
             counter += 1
+        roadmark_y_coord = 0
         roadmark_x_coord += 200
+
 
 
 
@@ -353,7 +355,7 @@ def MainGame():
                         player.player_set_speedy(3)
 
                     elif event.key == pygame.K_ESCAPE:
-                        done = True
+                        GameDone = True
               #end if
               if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
@@ -364,7 +366,7 @@ def MainGame():
 
                     if event.key == pygame.K_UP:
                         player.player_set_speedy(0)
-
+ 
                     elif event.key == pygame.K_DOWN:
                         player.player_set_speedy(0)
                          
@@ -381,7 +383,18 @@ def MainGame():
 
 
         #score uupdate
-        score += 1
+        score += 0.1
+        math.trunc(score)
+
+    
+
+    
+
+        
+        
+
+       
+        
 
         #road mark respawn
         #counter = 0   
