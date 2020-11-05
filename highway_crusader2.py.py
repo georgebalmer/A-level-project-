@@ -279,6 +279,8 @@ def Menu():
                     pygame.quit()
                 elif event.key == pygame.K_1:
                     MainMenuDone = True
+                elif event.key == pygame.K_2:
+                    Help()
             
 
          # -- Screen background is BLACK
@@ -286,6 +288,15 @@ def Menu():
         draw_text(screen, str("press [1] to start"), 20, 450, 330)
         draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
         draw_text(screen, str("Main Menu"), 100, 450, 80)
+        draw_text(screen, str("press [2] for help"), 20, 450, 390)
+        
+
+        
+       
+
+        
+        
+
         
        
 
@@ -480,13 +491,13 @@ def GameOver():
                     GameOverDone = True
             
 
-         # -- Screen background is BLACK
+        # -- Screen background is BLACK
         screen.fill (BLACK)
         draw_text(screen, str("press [SPACE] to play again"), 20, 450, 360)
         draw_text(screen, str("press [ESC] for main menu"), 20, 450, 390)
         draw_text(screen, str("GAME OVER!"), 100, 450, 80)
         draw_text(screen, str("highscore: " + str(highscore)), 50, 450, 200)
-        draw_text(screen, str("score:  " + str(score)), 50, 450, 280)
+        draw_text(screen, str("score: " + str(score)), 50, 450, 280)
         
 
     
@@ -497,6 +508,24 @@ def GameOver():
         clock.tick(60)
     MainGame()
     
+
+def Help():
+    HelpDone = False
+    while not HelpDone:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    Menu()
+        screen.fill(BLACK)
+        draw_text(screen, str("[W] to move up"), 20, 450, 200)
+        draw_text(screen, str("[A] to move left"), 20, 450, 230)
+        draw_text(screen, str("[S] to move down"), 20, 450, 260)
+        draw_text(screen, str("[D] to move right"), 20, 450, 290)
+        draw_text(screen, str("Main Menu [ESC]"), 18, 60, 10)
+
+    Menu()
     
+
+
 Menu()
 pygame.quit()
