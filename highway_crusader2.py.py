@@ -269,39 +269,13 @@ all_sprites_group = pygame.sprite.Group()
 
 
 
-### -- menu loop
-def Menu():
-    MainMenuDone = False
-    while not MainMenuDone:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                elif event.key == pygame.K_1:
-                    MainMenuDone = True
-                elif event.key == pygame.K_2:
-                    Help()
-                    
-            
 
-         # -- Screen background is BLACK
-        screen.fill (BLACK)
-        draw_text(screen, str("press [1] to start"), 20, 450, 330)
-        draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
-        draw_text(screen, str("Main Menu"), 100, 450, 80)
-        draw_text(screen, str("press [2] for help"), 20, 450, 390)
-       
-
-        pygame.display.flip()
-
-        #clock tick
-        clock.tick(60)
-    MainGame()
         
 
 ### -- Game Loop
 def MainGame():
-    done = False
+    GameDone = False
+    print("Main Game")
     global score
     score = 0
     # -- object creation
@@ -358,11 +332,11 @@ def MainGame():
 
     #code for collision group
     player_hit_list=pygame.sprite.Group()
-    while not done:
+    while not GameDone:
         # -- User input and controls
         for event in pygame.event.get():
               if event.type == pygame.QUIT:
-                    done = True
+                    GameDone = True
 
 
               if event.type == pygame.KEYDOWN:
@@ -431,7 +405,7 @@ def MainGame():
 
         traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
         for hit in traffic_hit_list:
-            done = True
+            GameDone = True
              
             
              
@@ -473,14 +447,15 @@ def MainGame():
 
 def GameOver():
     global score
+    print("Game over")
     GameOverDone = False
     while not GameOverDone:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    Menu()
-                elif event.key == pygame.K_SPACE:
                     GameOverDone = True
+                elif event.key == pygame.K_SPACE:
+                    MainGame()
             
 
         # -- Screen background is BLACK
@@ -498,25 +473,56 @@ def GameOver():
 
         #clock tick
         clock.tick(60)
-    MainGame()
     
 
 def Help():
     HelpDone = False
+    print("help")
     while not HelpDone:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    Menu()
+
         screen.fill(BLACK)
         draw_text(screen, str("[W] to move up"), 20, 450, 200)
         draw_text(screen, str("[A] to move left"), 20, 450, 230)
         draw_text(screen, str("[S] to move down"), 20, 450, 260)
         draw_text(screen, str("[D] to move right"), 20, 450, 290)
         draw_text(screen, str("Main Menu [ESC]"), 18, 60, 10)
-    Menu()
     
 
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    HelpDone = True
+       
+    
 
-Menu()
+done = False
+while not done:
+
+  # -- Screen background is BLACK
+    screen.fill (BLACK)
+    draw_text(screen, str("press [1] to start"), 20, 450, 330)
+    draw_text(screen, str("press [ESC] to exit"), 20, 450, 360)
+    draw_text(screen, str("Main Menu"), 100, 450, 80)
+    draw_text(screen, str("press [2] for help"), 20, 450, 390)
+
+
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+            elif event.key == pygame.K_1:
+                MainGame()
+            elif event.key == pygame.K_2: 
+                Help()
+                
+        
+
+   
+   
+
+    pygame.display.flip()
+
+    #clock tick
+    clock.tick(60)
+
 pygame.quit()
