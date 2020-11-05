@@ -21,7 +21,7 @@ screen = pygame.display.set_mode(size)
 
 highscore = 0 
 
-sdore = 0
+score = 0
 #road width is 29 tiles
 road_width = 580
 
@@ -126,6 +126,7 @@ class Road_mark(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
             self.rect.y = 0
+            score += 1
 
     def roadmark_set_speedy(self,val):
         speedy = val
@@ -383,8 +384,7 @@ def MainGame():
 
 
         #score uupdate
-        score += 0.1
-        math.trunc(score)
+       
 
     
 
