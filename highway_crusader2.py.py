@@ -19,14 +19,14 @@ size = (900,600)
 
 screen = pygame.display.set_mode(size)
 
-
+highscore = 0 
 
 #road width is 29 tiles
 road_width = 580
 
 
 #list for random spawn x co-ord
-traffic_x_list = [250,675]
+traffic_x_list = [250,550]
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -129,13 +129,6 @@ class Road_mark(pygame.sprite.Sprite):
     def roadmark_set_speedy(self,val):
         speedy = val
         self.roadmark_speedy = speedy
-
-
-
-
-
-
-    
 
 
 #traffic class
@@ -308,8 +301,9 @@ def MainGame():
     score = 0
     # -- object creation
     #player creation
-    player = Player(RED,20,20,0,0)
+    player = Player(RED,100,100,0,0)
     all_sprites_group.add (player)
+    global highscore
 
     #road mark creation
     roadmarks = pygame.sprite.Group()
@@ -334,7 +328,7 @@ def MainGame():
     speedcount=1
 
     for y in range(5):
-        traffic = Traffic(YELLOW,20,20,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
+        traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
         all_sprites_group.add(traffic)
         traffic_list.add(traffic)
         traffic_counter += 1
@@ -436,7 +430,7 @@ def MainGame():
              
             
              
-           
+       
             
 
         
@@ -447,6 +441,9 @@ def MainGame():
         all_sprites_group.draw (screen)
         draw_text(screen, str(score), 18, 800, 10)
         draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
+       
+        
+        
 
 
         # -- flip display to reveal new position of objects
@@ -460,9 +457,44 @@ def MainGame():
         x.kill()
     for x in roadmarks:
         x.kill()
+    if score > highscore:
+        highscore = score
+    
+    
+    print(highscore)
     #End While
-    Menu()
+    GameOver()
     #end of MainGame function
+
+def GameOver():
+    global score
+    GameOverDone = False
+    while not GameOverDone:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    Menu()
+                elif event.key == pygame.K_SPACE:
+                    GameOverDone = True
+            
+
+         # -- Screen background is BLACK
+        screen.fill (BLACK)
+        draw_text(screen, str("press [SPACE] to play again"), 20, 450, 360)
+        draw_text(screen, str("press [ESC] for main menu"), 20, 450, 390)
+        draw_text(screen, str("GAME OVER!"), 100, 450, 80)
+        draw_text(screen, str("highscore: " + str(highscore)), 50, 450, 200)
+        draw_text(screen, str("score:  " + str(score)), 50, 450, 280)
+        
+
+    
+
+        pygame.display.flip()
+
+        #clock tick
+        clock.tick(60)
+    MainGame()
+    
     
 Menu()
 pygame.quit()
