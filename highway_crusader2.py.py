@@ -421,7 +421,7 @@ def MainGame():
              
             
              
-        traffic_hit_list = pygame.sprite.groupcollide(traffic_list, traffic, False, False)
+        traffic_hit_list = pygame.sprite.groupcollide(traffic_list, traffic_list, False, False)
         for hit in traffic_hit_list:
             traffic.rect.y -= 300
            
