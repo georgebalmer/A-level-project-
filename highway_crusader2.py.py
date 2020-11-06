@@ -423,7 +423,7 @@ def MainGame():
              
         traffic_hit_list = pygame.sprite.groupcollide(traffic_list, traffic_list, False, False)
         for hit in traffic_hit_list:
-            traffic.rect.y -= 300
+            traffic.rect.y = traffic.rect.y -200
            
             
 
@@ -433,7 +433,7 @@ def MainGame():
         screen.fill (BLACK)
         # -- Draw here
         all_sprites_group.draw (screen)
-        draw_text(screen, str(score), 18, 800, 10)
+        draw_text(screen, str(score), 40, 800, 10)
         draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
        
         
@@ -507,8 +507,12 @@ def Help():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     HelpDone = True
+
        
-    
+        pygame.display.flip()
+
+        #clock tick
+        clock.tick(60)
 
 done = False
 while not done:
