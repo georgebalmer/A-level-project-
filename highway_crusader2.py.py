@@ -306,7 +306,7 @@ def MainGame():
     #traffic creation
     traffic_list = pygame.sprite.Group()
     traffic_counter=0
-    speedcount=1
+    speedcount=4
 
     for y in range(5):
         traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
