@@ -134,6 +134,7 @@ class Road_mark(pygame.sprite.Sprite):
 
 
 #traffic class
+traffic_list = pygame.sprite.Group()
 class Traffic(pygame.sprite.Sprite):
 
     #instantiation
@@ -158,8 +159,13 @@ class Traffic(pygame.sprite.Sprite):
     def update(self):
         self.rect.y = self.rect.y + self.traffic_speedy
         if self.rect.y > 600:
-           self.kill
-        
+           self.kill()
+           traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
+           all_sprites_group.add(traffic)
+           traffic_list.add(traffic)
+           traffic_counter += 1
+           speedcount = 4
+    
         
     
     def traffic_set_speedy(self,val):
@@ -305,7 +311,7 @@ def MainGame():
 
 
     #traffic creation
-    traffic_list = pygame.sprite.Group()
+    
     traffic_counter=0
     speedcount=4
 
@@ -383,18 +389,10 @@ def MainGame():
         all_sprites_group.update()
 
 
-        #score uupdate
-       
-
-    
-
-    
+        #score uupdate  
 
         
         score += 1
-
-       
-        
 
         #road mark respawn
         #counter = 0   
@@ -419,17 +417,13 @@ def MainGame():
         traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
         for hit in traffic_hit_list:
             GameDone = True
-             
+        
+        
             
-             
-        
-
-        
-    
-
-      
-
-        
+            
+        print(len(traffic_list))
+            
+            
 
         # -- Screen background is BLACK
         screen.fill (BLACK)
