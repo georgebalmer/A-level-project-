@@ -103,6 +103,7 @@ def draw_text(Surface, text, size, x, y):
 # -- classes
 #Road_mark class
 class Road_mark(pygame.sprite.Sprite):
+        
     #instantiation
     def __init__(self,color,width,height,x_ref,y_ref,speedy):
 
@@ -124,6 +125,7 @@ class Road_mark(pygame.sprite.Sprite):
 
 
     def update(self):
+         
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
             self.rect.y = 0
@@ -134,7 +136,10 @@ class Road_mark(pygame.sprite.Sprite):
 
 
 #traffic class
+
 traffic_list = pygame.sprite.Group()
+traffic_counter=0
+traffic_speedcount=4
 class Traffic(pygame.sprite.Sprite):
 
     #instantiation
@@ -157,14 +162,16 @@ class Traffic(pygame.sprite.Sprite):
 
     
     def update(self):
+        global traffic_speedcount
+        global traffic_counter
         self.rect.y = self.rect.y + self.traffic_speedy
         if self.rect.y > 600:
            self.kill()
-           traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
+           traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,traffic_speedcount)
            all_sprites_group.add(traffic)
            traffic_list.add(traffic)
            traffic_counter += 1
-           speedcount = 4
+           traffic_speedcount = 4
     
         
     
@@ -290,6 +297,8 @@ def MainGame():
     player = Player(RED,100,100,0,0)
     all_sprites_group.add (player)
     global highscore
+    global traffic_speedcount
+    global traffic_counter
 
     #road mark creation
     roadmarks = pygame.sprite.Group()
@@ -312,15 +321,14 @@ def MainGame():
 
     #traffic creation
     
-    traffic_counter=0
-    speedcount=4
+    
 
     for y in range(3):
-        traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
+        traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,traffic_speedcount)
         all_sprites_group.add(traffic)
         traffic_list.add(traffic)
         traffic_counter += 1
-        speedcount = 4
+        traffic_speedcount = 4
 
 
     #roadedge creataion
