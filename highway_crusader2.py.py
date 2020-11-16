@@ -19,6 +19,7 @@ size = (900,600)
 
 screen = pygame.display.set_mode(size)
 
+
 highscore = 0 
 
 score = 0
@@ -157,8 +158,7 @@ class Traffic(pygame.sprite.Sprite):
     def update(self):
         self.rect.y = self.rect.y + self.traffic_speedy
         if self.rect.y > 600:
-            self.rect.x = random.choice(traffic_x_list)
-            self.rect.y = random.randint(40,600)*-1
+           self.kill
         
         
     
@@ -217,6 +217,7 @@ class Player(pygame.sprite.Sprite):
 
          self.image = pygame.Surface([width,height])
          self.image.fill(color)
+         self.image = pygame.image.load("player2.png")
 
          self.rect = self.image.get_rect()
          self.rect.x = 400
@@ -308,7 +309,7 @@ def MainGame():
     traffic_counter=0
     speedcount=4
 
-    for y in range(5):
+    for y in range(3):
         traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,speedcount)
         all_sprites_group.add(traffic)
         traffic_list.add(traffic)
@@ -421,11 +422,12 @@ def MainGame():
              
             
              
-        traffic_hit_list = pygame.sprite.groupcollide(traffic_list, traffic_list, False, False)
-        for hit in traffic_hit_list:
-            traffic.rect.y = traffic.rect.y -200
-           
-            
+        
+
+        
+    
+
+      
 
         
 
