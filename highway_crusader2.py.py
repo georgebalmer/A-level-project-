@@ -123,6 +123,11 @@ class Coin(pygame.sprite.Sprite):
     def update(self):
 
         self.rect.y = self.rect.y + self.coin_speedy
+        if self.rect.y > 600:
+           self.rect.y = random.randint(40,700)*-1
+           self.rect.x = random.choice(traffic_x_list)
+        
+           
 
     def coin_speedy(self, val):
         self.coin_speedy = speedy
@@ -155,7 +160,8 @@ class Road_mark(pygame.sprite.Sprite):
          
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
-            self.rect.y = 0
+            self.rect.y=0
+            
             
     def roadmark_set_speedy(self,val):
         speedy = val
