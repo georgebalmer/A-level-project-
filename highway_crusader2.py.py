@@ -9,6 +9,7 @@ WHITE = (255,255,255)
 BLUE = (50,50,25)
 YELLOW = (255,255,0)
 RED = (255,0,0)
+GREEN = (0,255,0)
 
 # -- Initialise PyGame
 pygame.init()
@@ -99,8 +100,34 @@ def draw_text(Surface, text, size, x, y):
 
 
 
-
+coin_list = pygame.sprite.Group()
 # -- classes
+class Coin(pygame.sprite.Sprite):
+
+    #instantiation
+    def __init__(self,color,width,height,x_ref,y_ref,speedy):
+
+        #constructor
+        super().__init__()
+
+        #creates sprites
+        self.image = pygame.Surface([width,height])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+
+        #sets position of road mark
+        self.rect.x = x_ref
+        self.rect.y = y_ref
+
+        self.coin_speedy = speedy
+    def update(self):
+
+        self.rect.y = self.rect.y + self.coin_speedy
+
+    def coin_speedy(self, val):
+        self.coin_speedy = speedy
+
+    
 #Road_mark class
 class Road_mark(pygame.sprite.Sprite):
         
@@ -292,6 +319,7 @@ def MainGame():
     print("Main Game")
     global score
     score = 0
+    coiny=0
     # -- object creation
     #player creation
     player = Player(RED,100,100,0,0)
@@ -299,6 +327,7 @@ def MainGame():
     global highscore
     global traffic_speedcount
     global traffic_counter
+    lowy=100000
 
     #road mark creation
     roadmarks = pygame.sprite.Group()
@@ -329,6 +358,15 @@ def MainGame():
         traffic_list.add(traffic)
         traffic_counter += 1
         traffic_speedcount = 4
+
+    #coin creation
+    coin_list = pygame.sprite.Group()
+    for y in range(5):
+        coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), coiny, 4)
+        all_sprites_group.add(coin)
+        coin_list.add(coin)
+        coiny += 50
+        
 
 
     #roadedge creataion
@@ -425,7 +463,16 @@ def MainGame():
         traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
         for hit in traffic_hit_list:
             GameDone = True
-        
+        lowy = 1000
+        for x in traffic_list:
+            if x.rect.y < lowy:
+                lowy = x.rect.y
+
+        print(lowy)
+        if len(traffic_list) <3:
+            traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),lowy-400,traffic_speedcount)
+            all_sprites_group.add(traffic)
+            traffic_list.add(traffic)
         
             
             
@@ -500,10 +547,10 @@ def Help():
     while not HelpDone:
 
         screen.fill(BLACK)
-        draw_text(screen, str("[W] to move up"), 20, 450, 200)
-        draw_text(screen, str("[A] to move left"), 20, 450, 230)
-        draw_text(screen, str("[S] to move down"), 20, 450, 260)
-        draw_text(screen, str("[D] to move right"), 20, 450, 290)
+        draw_text(screen, str("[up arrow] to move up"), 20, 450, 200)
+        draw_text(screen, str("[left arrow] to move left"), 20, 450, 230)
+        draw_text(screen, str("[down arrow] to move down"), 20, 450, 260)
+        draw_text(screen, str("[down arrow] to move right"), 20, 450, 290)
         draw_text(screen, str("Main Menu [ESC]"), 18, 60, 10)
     
 
@@ -528,7 +575,6 @@ while not done:
     draw_text(screen, str("Main Menu"), 100, 450, 80)
     draw_text(screen, str("press [2] for help"), 20, 450, 360)
 
-
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -538,11 +584,6 @@ while not done:
             elif event.key == pygame.K_2: 
                 Help()
                 
-        
-
-   
-   
-
     pygame.display.flip()
 
     #clock tick
