@@ -22,7 +22,7 @@ screen = pygame.display.set_mode(size)
 
 
 highscore = 0 
-
+coins = 0
 score = 0
 #road width is 29 tiles
 road_width = 580
@@ -333,6 +333,7 @@ def MainGame():
     global highscore
     global traffic_speedcount
     global traffic_counter
+    global coins
     lowy=100000
 
     #road mark creation
@@ -474,7 +475,15 @@ def MainGame():
             if x.rect.y < lowy:
                 lowy = x.rect.y
 
-        print(lowy)
+        coin_hit_list = pygame.sprite.spritecollide(player, coin_list, True)
+        for hit in coin_hit_list:
+            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), coiny, 4)
+            all_sprites_group.add(coin)
+            coin_list.add(coin)
+            coins += 1
+            
+
+            
         if len(traffic_list) <3:
             traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),lowy-400,traffic_speedcount)
             all_sprites_group.add(traffic)
@@ -490,7 +499,7 @@ def MainGame():
         screen.fill (BLACK)
         # -- Draw here
         all_sprites_group.draw (screen)
-        draw_text(screen, str(score), 40, 800, 10)
+        draw_text(screen,  str("score: " + str(score)), 40, 800, 10)
         draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
        
         
