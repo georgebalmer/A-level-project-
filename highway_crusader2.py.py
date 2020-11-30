@@ -499,8 +499,9 @@ def MainGame():
         screen.fill (BLACK)
         # -- Draw here
         all_sprites_group.draw (screen)
-        draw_text(screen,  str("score: " + str(score)), 40, 800, 10)
+        draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
         draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
+        draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
        
         
         
