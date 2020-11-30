@@ -526,10 +526,32 @@ def MainGame():
     #End While
     GameOver()
     #end of MainGame function
+def Shop():
+    global score
+    global coins
+    ShopDone + False
+    while not ShopDone:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    ShopDone = True
+        screen.fill(BLACK)
+        draw_text(screen, str("SHOP"), 100, 450, 80)
+        draw_text(screen, str("Here you can buy mid-game powerups"), 30, 450, 300)
+        draw_text(scren, str("press [SPACE] to continue game"),20 , 450, 360)
 
+        pygame.display.flip()
+
+        #clock tick
+        clock.tick(60)
+    
+
+
+
+
+    
 def GameOver():
     global score
-    print("Game over")
     GameOverDone = False
     while not GameOverDone:
         for event in pygame.event.get():
