@@ -477,7 +477,7 @@ def MainGame():
 
         coin_hit_list = pygame.sprite.spritecollide(player, coin_list, True)
         for hit in coin_hit_list:
-            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), coiny, 4)
+            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
             all_sprites_group.add(coin)
             coin_list.add(coin)
             coins += 1
