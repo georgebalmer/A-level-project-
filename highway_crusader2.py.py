@@ -394,6 +394,7 @@ def MainGame():
 
     #code for collision group
     player_hit_list=pygame.sprite.Group()
+
     while not GameDone:
         # -- User input and controls
         for event in pygame.event.get():
@@ -489,7 +490,7 @@ def MainGame():
             all_sprites_group.add(traffic)
             traffic_list.add(traffic)
         
-            
+        if    
             
         print(len(traffic_list))
             
