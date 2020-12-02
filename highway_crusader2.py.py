@@ -322,6 +322,9 @@ all_sprites_group = pygame.sprite.Group()
 ### -- Game Loop
 def MainGame():
     GameDone = False
+    normal = True
+    shop = False
+    
     print("Main Game")
     global score
     score = 0
@@ -396,122 +399,130 @@ def MainGame():
     player_hit_list=pygame.sprite.Group()
 
     while not GameDone:
-        # -- User input and controls
-        for event in pygame.event.get():
-              if event.type == pygame.QUIT:
-                    GameDone = True
-
-
-              if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                            player.player_set_speedx(-3)
-
-                    elif event.key == pygame.K_RIGHT:
-                            player.player_set_speedx(3)
-
-                    if event.key == pygame.K_UP:
-                        player.player_set_speedy(-3)
-
-                    elif event.key == pygame.K_DOWN:
-                        player.player_set_speedy(3)
-
-                    elif event.key == pygame.K_ESCAPE:
+        if normal == True:
+            # -- User input and controls
+            for event in pygame.event.get():
+                  if event.type == pygame.QUIT:
                         GameDone = True
-              #end if
-              if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
-                            player.player_set_speedx(0)
-
-                    elif event.key == pygame.K_RIGHT:
-                            player.player_set_speedx(0)
-
-                    if event.key == pygame.K_UP:
-                        player.player_set_speedy(0)
- 
-                    elif event.key == pygame.K_DOWN:
-                        player.player_set_speedy(0)
-                         
-              #end if
+                
 
 
+                  if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                                player.player_set_speedx(-3)
 
-              #End If
-         #Next event
-        # -- Game logic goes after this comment
+                        elif event.key == pygame.K_RIGHT:
+                                player.player_set_speedx(3)
+
+                        if event.key == pygame.K_UP:
+                            player.player_set_speedy(-3)
+
+                        elif event.key == pygame.K_DOWN:
+                            player.player_set_speedy(3)
+
+                        elif event.key == pygame.K_ESCAPE:
+                            GameDone = True
+                  #end if
+                  if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_LEFT:
+                                player.player_set_speedx(0)
+
+                        elif event.key == pygame.K_RIGHT:
+                                player.player_set_speedx(0)
+
+                        if event.key == pygame.K_UP:
+                            player.player_set_speedy(0)
+     
+                        elif event.key == pygame.K_DOWN:
+                            player.player_set_speedy(0)
+                             
+                  #end if
+
+
+
+                  #End If
+             #Next event
+            # -- Game logic goes after this comment
+            
+            # Runs the update function for all sprites
+            all_sprites_group.update()
+
+
+            #score uupdate  
+
+            
+            score += 1
+
+            #road mark respawn
+            #counter = 0   
+            #for y in range (20):
+             #   roadmark.respawn()
+              #  counter += 1
+
+            #player collisions
+            player_old_x = player.rect.x
+            player_old_y = player.rect.y
+
+            player_hit_list = pygame.sprite.spritecollide(player, roadedge_list, False)
+
+            for foo in player_hit_list:
+                player.player_set_speedx(0)
+                player.player_set_speedy(0)
+                player.rect.x = player_old_x
+                player.rect.y = player_old_y
+               
+
+
+            traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
+            for hit in traffic_hit_list:
+                GameDone = True
+            lowy = 1000
+            for x in traffic_list:
+                if x.rect.y < lowy:
+                    lowy = x.rect.y
+
+            coin_hit_list = pygame.sprite.spritecollide(player, coin_list, True)
+            for hit in coin_hit_list:
+                coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
+                all_sprites_group.add(coin)
+                coin_list.add(coin)
+                coins += 1
+                
+
+                
+            if len(traffic_list) <3:
+                traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),lowy-400,traffic_speedcount)
+                all_sprites_group.add(traffic)
+                traffic_list.add(traffic)
+            
         
-        # Runs the update function for all sprites
-        all_sprites_group.update()
+                
+            print(len(traffic_list))
+                
+                
 
-
-        #score uupdate  
-
-        
-        score += 1
-
-        #road mark respawn
-        #counter = 0   
-        #for y in range (20):
-         #   roadmark.respawn()
-          #  counter += 1
-
-        #player collisions
-        player_old_x = player.rect.x
-        player_old_y = player.rect.y
-
-        player_hit_list = pygame.sprite.spritecollide(player, roadedge_list, False)
-
-        for foo in player_hit_list:
-            player.player_set_speedx(0)
-            player.player_set_speedy(0)
-            player.rect.x = player_old_x
-            player.rect.y = player_old_y
+            # -- Screen background is BLACK
+            screen.fill (BLACK)
+            # -- Draw here
+            all_sprites_group.draw (screen)
+            draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
+            draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
+            draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
            
-
-
-        traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
-        for hit in traffic_hit_list:
-            GameDone = True
-        lowy = 1000
-        for x in traffic_list:
-            if x.rect.y < lowy:
-                lowy = x.rect.y
-
-        coin_hit_list = pygame.sprite.spritecollide(player, coin_list, True)
-        for hit in coin_hit_list:
-            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
-            all_sprites_group.add(coin)
-            coin_list.add(coin)
-            coins += 1
-            
-
-            
-        if len(traffic_list) <3:
-            traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),lowy-400,traffic_speedcount)
-            all_sprites_group.add(traffic)
-            traffic_list.add(traffic)
-        
-        if    
-            
-        print(len(traffic_list))
             
             
 
-        # -- Screen background is BLACK
-        screen.fill (BLACK)
-        # -- Draw here
-        all_sprites_group.draw (screen)
-        draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
-        draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
-        draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
-       
-        
-        
 
-
-        # -- flip display to reveal new position of objects
-        pygame.display.flip()
-        # -- The clock ticks over
-        clock.tick(60)
+            # -- flip display to reveal new position of objects
+            pygame.display.flip()
+            # -- The clock ticks over
+            clock.tick(60)
+            scoremod = score % 1000
+            if scoremod==0:
+                Normal=False
+        Shop()
+                
+                
     for x in traffic_list:
         x.kill()
     player.kill()
@@ -530,7 +541,7 @@ def MainGame():
 def Shop():
     global score
     global coins
-    ShopDone + False
+    ShopDone = False
     while not ShopDone:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -539,7 +550,7 @@ def Shop():
         screen.fill(BLACK)
         draw_text(screen, str("SHOP"), 100, 450, 80)
         draw_text(screen, str("Here you can buy mid-game powerups"), 30, 450, 300)
-        draw_text(scren, str("press [SPACE] to continue game"),20 , 450, 360)
+        draw_text(screen, str("press [SPACE] to continue game"),20 , 450, 360)
 
         pygame.display.flip()
 
