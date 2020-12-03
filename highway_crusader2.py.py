@@ -20,7 +20,7 @@ size = (900,600)
 
 screen = pygame.display.set_mode(size)
 
-
+scoreatshop=0
 highscore = 0 
 coins = 0
 score = 0
@@ -399,7 +399,7 @@ def MainGame():
     player_hit_list=pygame.sprite.Group()
 
     while not GameDone:
-        if normal == True:
+        while normal == True:
             # -- User input and controls
             for event in pygame.event.get():
                   if event.type == pygame.QUIT:
@@ -452,6 +452,10 @@ def MainGame():
 
             
             score += 1
+            scoremod = score % 100
+            scoreatshop=score
+            if scoremod==0:
+                Shop()
 
             #road mark respawn
             #counter = 0   
@@ -517,9 +521,8 @@ def MainGame():
             pygame.display.flip()
             # -- The clock ticks over
             clock.tick(60)
-            scoremod = score % 1000
-            if scoremod==0:
-                Normal=False
+            
+          
         Shop()
                 
                 
@@ -551,11 +554,11 @@ def Shop():
         draw_text(screen, str("SHOP"), 100, 450, 80)
         draw_text(screen, str("Here you can buy mid-game powerups"), 30, 450, 300)
         draw_text(screen, str("press [SPACE] to continue game"),20 , 450, 360)
-
         pygame.display.flip()
 
         #clock tick
         clock.tick(60)
+    score=scoreatshop
     
 
 
