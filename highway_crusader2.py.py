@@ -484,8 +484,7 @@ def MainGame():
             score += 1
             scoremod = score % 100
 
-            if scoremod ==0:
-                draw_text(screen,  str("shop"), 20, 450, 20)
+            
                 
     
          
@@ -551,6 +550,9 @@ def MainGame():
             draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
             draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
             draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
+
+            if scoremod <30:
+                draw_text(screen,  str("shop"), 90, 450, 200)
            
             
             
