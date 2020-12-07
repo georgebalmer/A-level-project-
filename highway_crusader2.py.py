@@ -103,7 +103,7 @@ def draw_text(Surface, text, size, x, y):
 # -- classes
 class Bullet(pygame.sprite.Sprite):
          
-    def __init__(self,color,x_ref,y_ref,speedy):
+    def __init__(self,x_ref,y_ref,speedy):
 
         super().__init__()
 
@@ -113,7 +113,7 @@ class Bullet(pygame.sprite.Sprite):
 
         #sets position
         self.rect.y = y_ref
-        slef.rect.x = x_ref
+        self.rect.x = x_ref
 
         self.bullet_speedy = speedy
 
@@ -420,6 +420,9 @@ def MainGame():
     #code for collision group
     player_hit_list=pygame.sprite.Group()
 
+    #bullet list
+    bullets_list=pygame.sprite.Group()
+
     while not GameDone:
             # -- User input and controls
             for event in pygame.event.get():
@@ -442,6 +445,13 @@ def MainGame():
 
                         elif event.key == pygame.K_ESCAPE:
                             GameDone = True
+
+                        if event.key == pygame.K_SPACE:
+                            bullet = Bullet(player.rect.x,player.rect.y,2)
+                            bullets_list.add(bullet)
+                            all_sprites_group.add(bullet)
+
+
                   #end if
                   if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT:
