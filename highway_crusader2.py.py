@@ -100,8 +100,30 @@ def draw_text(Surface, text, size, x, y):
 
 
 
-coin_list = pygame.sprite.Group()
 # -- classes
+class Bullet(pygame.sprite.Sprite):
+         
+    def __init__(self,color,x_ref,y_ref,speedy):
+
+        super().__init__()
+
+        self.image = pygame.Surface([10,10])
+        self.image.fill(BLUE)
+        self.rect=self.image.get_rect()
+
+        #sets position
+        self.rect.y = y_ref
+        slef.rect.x = x_ref
+
+        self.bullet_speedy = speedy
+
+    def update(self):
+        self.rect.y += self.bullet_speedy
+        
+             
+coin_list = pygame.sprite.Group()
+
+
 class Coin(pygame.sprite.Sprite):
 
     #instantiation
@@ -323,7 +345,7 @@ all_sprites_group = pygame.sprite.Group()
 def MainGame():
     GameDone = False
     normal = True
-    shop = False
+    
     
     print("Main Game")
     global score
@@ -399,13 +421,11 @@ def MainGame():
     player_hit_list=pygame.sprite.Group()
 
     while not GameDone:
-        while normal == True:
             # -- User input and controls
             for event in pygame.event.get():
                   if event.type == pygame.QUIT:
                         GameDone = True
                 
-
 
                   if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
@@ -435,7 +455,7 @@ def MainGame():
      
                         elif event.key == pygame.K_DOWN:
                             player.player_set_speedy(0)
-                             
+                            
                   #end if
 
 
@@ -454,8 +474,7 @@ def MainGame():
             score += 1
             scoremod = score % 100
             scoreatshop=score
-            if scoremod==0:
-                Shop()
+         
 
             #road mark respawn
             #counter = 0   
@@ -523,7 +542,6 @@ def MainGame():
             clock.tick(60)
             
           
-        Shop()
                 
                 
     for x in traffic_list:
@@ -536,11 +554,10 @@ def MainGame():
     if score > highscore:
         highscore = score
     
-    
-    print(highscore)
+
     #End While
     GameOver()
-    #end of MainGame function
+#end of MainGame function
 def Shop():
     global score
     global coins
