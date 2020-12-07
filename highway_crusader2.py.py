@@ -6,7 +6,7 @@ import random
 # -- Colours
 BLACK = (0,0,0)
 WHITE = (255,255,255)
-BLUE = (50,50,25)
+BLUE = (0,0,255)
 YELLOW = (255,255,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
@@ -118,7 +118,7 @@ class Bullet(pygame.sprite.Sprite):
         self.bullet_speedy = speedy
 
     def update(self):
-        self.rect.y += self.bullet_speedy
+        self.rect.y -= self.bullet_speedy
         
              
 coin_list = pygame.sprite.Group()
@@ -447,7 +447,7 @@ def MainGame():
                             GameDone = True
 
                         if event.key == pygame.K_SPACE:
-                            bullet = Bullet(player.rect.x,player.rect.y,2)
+                            bullet = Bullet(player.rect.x+25,player.rect.y,10)
                             bullets_list.add(bullet)
                             all_sprites_group.add(bullet)
 
@@ -483,7 +483,11 @@ def MainGame():
             
             score += 1
             scoremod = score % 100
-            scoreatshop=score
+
+            if scoremod ==0:
+                draw_text(screen,  str("shop"), 20, 450, 20)
+                
+    
          
 
             #road mark respawn
@@ -503,7 +507,13 @@ def MainGame():
                 player.player_set_speedy(0)
                 player.rect.x = player_old_x
                 player.rect.y = player_old_y
-               
+
+            #bullet collisions
+            bullet_hit_list = pygame.sprite.groupcollide(bullets_list, traffic_list, True, True)
+            #for hit in bullet_hit_list:
+                
+
+        
 
 
             traffic_hit_list = pygame.sprite.spritecollide(player, traffic_list, False)
