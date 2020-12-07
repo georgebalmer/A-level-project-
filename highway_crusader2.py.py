@@ -24,6 +24,7 @@ scoreatshop=0
 highscore = 0 
 coins = 0
 score = 0
+bullets=10
 #road width is 29 tiles
 road_width = 580
 
@@ -356,6 +357,7 @@ def MainGame():
     player = Player(RED,100,100,0,0)
     all_sprites_group.add (player)
     global highscore
+    global bullets
     global traffic_speedcount
     global traffic_counter
     global coins
@@ -447,9 +449,13 @@ def MainGame():
                             GameDone = True
 
                         if event.key == pygame.K_SPACE:
-                            bullet = Bullet(player.rect.x+25,player.rect.y,10)
-                            bullets_list.add(bullet)
-                            all_sprites_group.add(bullet)
+                            if bullets>0:
+                                bullet = Bullet(player.rect.x+25,player.rect.y,10)
+                                bullets_list.add(bullet)
+                                all_sprites_group.add(bullet)
+                                bullets -= 1
+                            else:
+                                draw_text(screen, str("no bullets remaining"), 20, 450,10)
 
 
                   #end if
@@ -552,7 +558,18 @@ def MainGame():
             draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
 
             if scoremod <30:
-                draw_text(screen,  str("shop"), 90, 450, 200)
+                draw_text(screen,  str("shop"), 45, 450, 100)
+                draw_text(screen, str("press [1] to buy 10 bullets"), 20, 450, 160)
+                for event in pygame.event.get():
+                  if event.type == pygame.QUIT:
+                        GameDone = True
+                
+
+                  if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_1:
+                                bullets+=10
+
+                
            
             
             
