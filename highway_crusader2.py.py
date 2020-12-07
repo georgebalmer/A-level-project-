@@ -488,7 +488,7 @@ def MainGame():
 
             
             score += 1
-            scoremod = score % 100
+            scoremod = score % 500
 
             
                 
@@ -556,10 +556,11 @@ def MainGame():
             draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
             draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
             draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
+            draw_text(screen,  str("bullets: " + str(bullets)), 20, 800, 50)
 
-            if scoremod <30:
+            if scoremod <100:
                 draw_text(screen,  str("shop"), 45, 450, 100)
-                draw_text(screen, str("press [1] to buy 10 bullets"), 20, 450, 160)
+                draw_text(screen, str("press [1] to buy 10 bullets for 5 coins"), 20, 450, 160)
                 for event in pygame.event.get():
                   if event.type == pygame.QUIT:
                         GameDone = True
@@ -567,7 +568,9 @@ def MainGame():
 
                   if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_1:
-                                bullets+=10
+                                if coins > 4:
+                                    bullets+=10
+                                    coins-=5
 
                 
            
