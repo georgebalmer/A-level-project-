@@ -398,7 +398,7 @@ def MainGame():
 
     #coin creation
     coin_list = pygame.sprite.Group()
-    for y in range(5):
+    for y in range(3):
         coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), coiny, 4)
         all_sprites_group.add(coin)
         coin_list.add(coin)
