@@ -25,6 +25,7 @@ highscore = 0
 coins = 0
 score = 0
 bullets=10
+
 #road width is 29 tiles
 road_width = 580
 
@@ -346,12 +347,14 @@ all_sprites_group = pygame.sprite.Group()
 def MainGame():
     GameDone = False
     normal = True
+    shop = False
     
     
     print("Main Game")
     global score
     score = 0
     coiny=0
+    scoremod = 0
     # -- object creation
     #player creation
     player = Player(RED,100,100,0,0)
@@ -426,6 +429,8 @@ def MainGame():
     bullets_list=pygame.sprite.Group()
 
     while not GameDone:
+            
+
             # -- User input and controls
             for event in pygame.event.get():
                   if event.type == pygame.QUIT:
@@ -456,6 +461,10 @@ def MainGame():
                                 bullets -= 1
                             else:
                                 draw_text(screen, str("no bullets remaining"), 20, 450,10)
+                        if (event.key == pygame.K_1) and (shop + True):
+                                        if coins > 4:
+                                            bullets+=10
+                                            coins-=5
 
 
                   #end if
@@ -471,6 +480,12 @@ def MainGame():
      
                         elif event.key == pygame.K_DOWN:
                             player.player_set_speedy(0)
+
+               
+            
+
+                              
+
                             
                   #end if
 
@@ -559,20 +574,11 @@ def MainGame():
             draw_text(screen,  str("bullets: " + str(bullets)), 20, 800, 50)
 
             if scoremod <100:
-                draw_text(screen,  str("shop"), 45, 450, 100)
-                draw_text(screen, str("press [1] to buy 10 bullets for 5 coins"), 20, 450, 160)
-                for event in pygame.event.get():
-                  if event.type == pygame.QUIT:
-                        GameDone = True
-                
+                    draw_text(screen,  str("shop"), 45, 450, 100)
+                    draw_text(screen, str("press [1] to buy 10 bullets for 5 coins"), 20, 450, 160)
+                    shop = True
 
-                  if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_1:
-                                if coins > 4:
-                                    bullets+=10
-                                    coins-=5
-
-                
+            
            
             
             
@@ -637,7 +643,7 @@ def GameOver():
             
 
         # -- Screen background is BLACK
-        screen.fill (BLACK)
+       
         draw_text(screen, str("press [SPACE] to play again"), 20, 450, 360)
         draw_text(screen, str("press [ESC] for main menu"), 20, 450, 390)
         draw_text(screen, str("GAME OVER!"), 100, 450, 80)
