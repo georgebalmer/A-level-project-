@@ -643,7 +643,7 @@ def GameOver():
             
 
         # -- Screen background is BLACK
-       
+        screen.fill (BLACK)
         draw_text(screen, str("press [SPACE] to play again"), 20, 450, 360)
         draw_text(screen, str("press [ESC] for main menu"), 20, 450, 390)
         draw_text(screen, str("GAME OVER!"), 100, 450, 80)
