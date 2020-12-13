@@ -119,7 +119,6 @@ class Game (pygame.sprite.Sprite):
             traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,traffic_speedcount)
             self.all_sprites_group.add(traffic)
             self.traffic_list.add(traffic)
-            traffic_counter += 1
             traffic_speedcount = 4
 
         #create coins
@@ -155,6 +154,15 @@ class Game (pygame.sprite.Sprite):
         ## check bullet collisions
         bullet_hit_list = pygame.sprite.groupcollide(bullets_list, self.traffic_list, True, True)
 
+
+    ## makes sure there are enough traffic sprites on the screen
+    def traffic_check(self):
+        if len(self.traffic_list) < 3:
+            traffic = Traffic(YELLOW,100,100,random.choice(traffic_x_list),random.randint(40,700)*-1,4)
+            self.all_sprites_group.add(traffic)
+            self.traffic_list.add(traffic)
+            
+            
 
 ### end of game class
 
@@ -418,6 +426,7 @@ while not g.GameDone:
     # -- Game logic goes after this comment
     g.all_sprites_group.update()
     g.check_colls()
+    g.traffic_check()
     # Runs the update function for all sprites
 
     # -- Screen background is BLACK
