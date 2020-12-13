@@ -15,6 +15,7 @@ YELLOW = (255,255,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
 
+coins=0
 traffic_x_list = [200,400,600]
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -131,6 +132,15 @@ class Game (pygame.sprite.Sprite):
                 lowy = x.rect.y
 
         ## check coin collision
+        coins=0
+        coin_hit_list = pygame.sprite.spritecollide(self.player, self.coin_list, True)
+        for hit in coin_hit_list:
+            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
+            self.all_sprites_group.add(coin)
+            self.coin_list.add(coin)
+            coins += 1
+
+        
 
         ## check bullet collisions
 
