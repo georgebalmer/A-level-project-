@@ -153,7 +153,7 @@ class Game (pygame.sprite.Sprite):
         
 
         ## check bullet collisions
-
+        bullet_hit_list = pygame.sprite.groupcollide(bullets_list, self.traffic_list, True, True)
 
 
 ### end of game class
