@@ -15,7 +15,9 @@ YELLOW = (255,255,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
 
-coins=0
+coins = 0
+bullets = 10
+score = 0
 traffic_x_list = [200,400,600]
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -58,8 +60,16 @@ map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0]]
 
+### Drawing function
+font_name = pygame.font.match_font('arial')
+def draw_text(Surface, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    Surface.blit(text_surface, text_rect)
 
-# Classe definitions
+# Class definitions
 
 #### Game class
 class Game (pygame.sprite.Sprite):
@@ -148,7 +158,33 @@ class Game (pygame.sprite.Sprite):
 
 ### end of game class
 
-#coin class
+### Bullet class
+
+class Bullet(pygame.sprite.Sprite):
+         
+    def __init__(self,x_ref,y_ref,speedy):
+
+        super().__init__()
+
+        self.image = pygame.Surface([10,10])
+        self.image.fill(BLUE)
+        self.rect=self.image.get_rect()
+
+        #sets position
+        self.rect.y = y_ref
+        self.rect.x = x_ref
+
+        self.bullet_speedy = speedy
+
+    def update(self):
+        self.rect.y -= self.bullet_speedy
+        
+             
+
+
+
+
+### Coin class
 class Coin(pygame.sprite.Sprite):
     def __init__(self,color,width,height,x_ref,y_ref,speedy):
         #constructor
@@ -175,6 +211,8 @@ class Coin(pygame.sprite.Sprite):
 
     def coin_speedy(self, val):
         self.coin_speedy = speedy
+
+#### end of Coin class
         
 
 
@@ -321,6 +359,7 @@ screen = pygame.display.set_mode(size)
 GameDone = False
 clock = pygame.time.Clock()
 g = Game()
+bullets_list=pygame.sprite.Group()
 
 while not g.GameDone:
             
@@ -347,7 +386,14 @@ while not g.GameDone:
                 GameDone = True
 
             elif event.key == pygame.K_SPACE:
-                pass
+                if bullets>0:
+                    bullet = Bullet(g.player.rect.x+25,g.player.rect.y,10)
+                    bullets_list.add(bullet)
+                    g.all_sprites_group.add(bullet)
+                    bullets -= 1
+                else:
+                    draw_text(screen, str("no bullets remaining"), 20, 450,10)
+                
 
         # end event type
 
