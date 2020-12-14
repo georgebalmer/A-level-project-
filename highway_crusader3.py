@@ -151,7 +151,7 @@ class Game (pygame.sprite.Sprite):
             coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
             self.all_sprites_group.add(coin)
             self.coin_list.add(coin)
-            coins += 1
+            self.coins += 1
 
         
 
