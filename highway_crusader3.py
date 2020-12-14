@@ -15,9 +15,7 @@ YELLOW = (255,255,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
 
-coins = 0
-bullets = 10
-score = 0
+
 traffic_x_list = [200,400,600]
 
 map = [[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -78,6 +76,12 @@ class Game (pygame.sprite.Sprite):
         super().__init__()
         self.GameDone = False
         self.all_sprites_group = pygame.sprite.Group()
+
+    
+        #setting variables for scoreboard
+        self.coins = 0
+        self.bullets = 10
+        self.score = 0
 
         # Create map
         self.roadedge_list = pygame.sprite.Group()
@@ -155,7 +159,7 @@ class Game (pygame.sprite.Sprite):
         bullet_hit_list = pygame.sprite.groupcollide(bullets_list, self.traffic_list, True, True)
 
     def update_game(self):
-        score += 1
+        self.score += 0
 
 
     
@@ -314,6 +318,7 @@ class Road_mark(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.roadmark_speedy
         if self.rect.y > 600:
             self.rect.y=0
+            g.score += 1
             
             
     def roadmark_set_speedy(self,val):
@@ -398,11 +403,11 @@ while not g.GameDone:
                 GameDone = True
 
             elif event.key == pygame.K_SPACE:
-                if bullets>0:
+                if g.bullets>0:
                     bullet = Bullet(g.player.rect.x+25,g.player.rect.y,10)
                     bullets_list.add(bullet)
                     g.all_sprites_group.add(bullet)
-                    bullets -= 1
+                    g.bullets -= 1
                 else:
                     draw_text(screen, str("no bullets remaining"), 20, 450,10)
                 
@@ -439,10 +444,10 @@ while not g.GameDone:
     screen.fill (BLACK)
     # -- Draw here
     g.all_sprites_group.draw(screen)
-    draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
+    draw_text(screen,  str("score: " + str(g.score)), 20, 800, 10)
     draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
-    draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
-    draw_text(screen,  str("bullets: " + str(bullets)), 20, 800, 50)
+    draw_text(screen,  str("coins: " + str(g.coins)), 20, 800, 30)
+    draw_text(screen,  str("bullets: " + str(g.bullets)), 20, 800, 50)
 
     ## Put text on screen
 
