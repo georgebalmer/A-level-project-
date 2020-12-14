@@ -434,6 +434,10 @@ while not g.GameDone:
     screen.fill (BLACK)
     # -- Draw here
     g.all_sprites_group.draw(screen)
+    draw_text(screen,  str("score: " + str(score)), 20, 800, 10)
+    draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
+    draw_text(screen,  str("coins: " + str(coins)), 20, 800, 30)
+    draw_text(screen,  str("bullets: " + str(bullets)), 20, 800, 50)
 
     ## Put text on screen
 
