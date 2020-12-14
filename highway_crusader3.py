@@ -154,6 +154,9 @@ class Game (pygame.sprite.Sprite):
         ## check bullet collisions
         bullet_hit_list = pygame.sprite.groupcollide(bullets_list, self.traffic_list, True, True)
 
+    def update_game(self):
+        score += 1
+
 
     
             
@@ -426,7 +429,9 @@ while not g.GameDone:
 
     # -- Game logic goes after this comment
     g.all_sprites_group.update()
+    g.update_game()
     g.check_colls()
+    
     
     # Runs the update function for all sprites
 
