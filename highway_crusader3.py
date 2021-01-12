@@ -64,7 +64,7 @@ def draw_text(Surface, text, size, x, y):
     font = pygame.font.Font(font_name, size)
     text_surface = font.render(text, True, WHITE)
     text_rect = text_surface.get_rect()
-    text_rect.midtop = (x, y)
+    text_rect.topleft = (x, y)
     Surface.blit(text_surface, text_rect)
 
 # Class definitions
@@ -77,9 +77,12 @@ class Game (pygame.sprite.Sprite):
         self.GameDone = False
         self.all_sprites_group = pygame.sprite.Group()
 
-    
+        #vairable for speed of player
+
+        self.player_speed = 3
+        
         #setting variables for scoreboard
-        self.coins = 0
+        self.coins = 100
         self.bullets = 10
         self.score = 0
 
@@ -362,6 +365,9 @@ class Traffic(pygame.sprite.Sprite):
         speedy = val
         self.traffic_speedy = speedy
 
+    def traffic_nuke(self):
+        self.rect.y -= 1000
+
 
 
 # -- Initialise PyGame
@@ -388,19 +394,35 @@ while not g.GameDone:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                g.player.player_set_speedx(-3)
+                g.player.player_set_speedx(-1*g.player_speed)
 
             elif event.key == pygame.K_RIGHT:
-                g.player.player_set_speedx(3)
+                g.player.player_set_speedx(g.player_speed)
 
             elif event.key == pygame.K_UP:
-                g.player.player_set_speedy(-3)    
+                g.player.player_set_speedy(-1*g.player_speed)    
 
             elif event.key == pygame.K_DOWN:
-                g.player.player_set_speedy(3)    
+                g.player.player_set_speedy(g.player_speed)    
 
             elif event.key == pygame.K_ESCAPE:
                 GameDone = True
+
+            elif event.key == pygame.K_1:
+                if g.coins > 4:
+                    g.coins -= 5
+                    g.bullets += 10
+
+            elif event.key == pygame.K_2:
+                if g.coins > 9:
+                    g.coins -= 10
+                    g.player_speed = g.player_speed *1.2
+
+            elif event.key == pygame.K_3:
+                if g.coins > 19:
+                    for x in g.traffic_list:
+                        traffic_list.traffic_nuke()
+                        
 
             elif event.key == pygame.K_SPACE:
                 if g.bullets>0:
@@ -444,10 +466,16 @@ while not g.GameDone:
     screen.fill (BLACK)
     # -- Draw here
     g.all_sprites_group.draw(screen)
-    draw_text(screen,  str("score: " + str(g.score)), 20, 800, 10)
-    draw_text(screen, str("Quit [ESC]"), 18, 60, 10)
-    draw_text(screen,  str("coins: " + str(g.coins)), 20, 800, 30)
-    draw_text(screen,  str("bullets: " + str(g.bullets)), 20, 800, 50)
+    draw_text(screen,  str("score: " + str(g.score)), 20, 795, 10)
+    draw_text(screen, str("Quit [ESC]"), 18, 30, 20)
+    draw_text(screen,  str("coins: £" + str(g.coins)), 20, 795, 30)
+    draw_text(screen,  str("bullets: " + str(g.bullets)), 20, 795, 50)
+    draw_text(screen,  str("Shop:"), 20, 5, 70)
+    draw_text(screen,  str("[1] 10 bullets - £5"), 17, 5, 100)
+    draw_text(screen,  str("[2] +20% speed - £10"), 17, 5, 120)
+    draw_text(screen,  str("[3] nuke - £20"), 17, 5, 140)
+    
+    
 
     ## Put text on screen
 
