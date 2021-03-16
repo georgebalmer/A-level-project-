@@ -85,6 +85,8 @@ done = False
  # -- Manages how fast screen refreshes
 clock = pygame.time.Clock()
 
+coins_list = pygame.sprite.Group()
+
 #functions
 #collision function
 def is_collided_with(self,sprite):
@@ -150,6 +152,12 @@ class Coin(pygame.sprite.Sprite):
         if self.rect.y > 600:
            self.rect.y = random.randint(40,700)*-1
            self.rect.x = random.choice(traffic_x_list)
+        if len(coins_list)<3:
+            coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), random.randint(40,700)*-1, 4)
+            all_sprites_group.add(coin)
+            coin_list.add(coin)
+        
+           
         
            
 
@@ -397,7 +405,7 @@ def MainGame():
         traffic_speedcount = 4
 
     #coin creation
-    coin_list = pygame.sprite.Group()
+    
     for y in range(3):
         coin = Coin(GREEN, 50, 50, random.choice(traffic_x_list), coiny, 4)
         all_sprites_group.add(coin)
